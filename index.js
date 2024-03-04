@@ -2,26 +2,20 @@ const express = require('express')
 const cors = require('cors')
 const app = express()
 const port = 3000
+// const login = require('./controller/userController')
 
-app.use(cors())
+// app.use(cors())
 
-//connecxion a la base de donnee methode  debut
+//connecxion a la base de donnee methode  debuts
 
-var mysql      = require('mysql');
-var connection = mysql.createConnection({
-  host     : 'localhost',
-  user     : 'root',
-  password : '',
-  database: 'cashier',
+app.get('/', (req,resp) => {
+  return "Hello"
 });
 
-connection.connect((err) =>{
-  if(err){
-    console.error("erreur de connexion : "+err.stack)
-    return;
-  }
-  console.log("connexion reussie a la bdd!")
-})
+// // user route
+// app.post('/login', function(req, res) {
+//   login
+// });
 
 app.listen(port, () => {
   console.log("serveur est en ligne !");
@@ -31,4 +25,3 @@ app.listen(port, () => {
 
  
 
-connection.end();
