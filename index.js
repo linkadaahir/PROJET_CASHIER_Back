@@ -1,25 +1,28 @@
 const express = require('express')
-const cors = require('cors')
+// const cors = require('cors')
 const app = express()
-const port = 3000
-// const login = require('./controller/userController')
+const port = 3005
+const user = require('./controller/userController')
 
 // app.use(cors())
 
 //connecxion a la base de donnee methode  debuts
 
 app.get('/', (req,resp) => {
-  return "Hello"
+  return resp.send("Hello")
 });
 
-// // user route
-// app.post('/login', function(req, res) {
-//   login
-// });
+// user route
+app.post('/login', (req,resp) => {
+ const  data = req.body
+
+ return resp.send(data.email ?? 'kjh')
+  // user.login.userAuth(req.body)
+});
 
 app.listen(port, () => {
-  console.log("serveur est en ligne !");
-})
+  })
+
 //connecxion a la base de donnee methode fin
 
 

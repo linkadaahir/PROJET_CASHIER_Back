@@ -2,22 +2,30 @@ const express = require('express')
 const app = express()
 const db = require('../controller/dbConnexions')
 
-login = async (req, resp) => {
+exports.login = {
+   userAuth: (req, resp) => {
 
-   const user = await db.query(`select * from user where email=${req.body.email}`);
+      console.log(req);
 
-   if (!user) {
-     return resp.json({
-        message: 'l\'utilisateurs n\'existe pas',
-        error: true
-     })
+      const user = db.query(`select * from user where email=${req}`);
+   
+      if (!user) {
+         response =  {
+           message: 'l\'utilisateurs n\'existe pas',
+           error: true
+        }
+      }
+   
+      response = {
+       message: 'l\'utilisateurs trouver avec success',
+       error: false,
+       user_profile: user
+    }
+   
+    console.log(response);
+   
+    return resp.json(response);
    }
+}
 
-   return resp.json({
-    message: 'l\'utilisateurs trouver avec success',
-    error: false,
-    user_profile: user
- })
-};
-
-module.exports = {login}
+// module.exports = {login}
