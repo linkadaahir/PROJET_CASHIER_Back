@@ -1,10 +1,13 @@
 const express = require('express')
-// const cors = require('cors')
+const cors = require('cors')
+const bodyParser = require("body-parser")
 const app = express()
 const port = 3005
 const user = require('./controller/userController')
 
-// app.use(cors())
+app.use(bodyParser.json())
+app.use(cors())
+
 
 //connecxion a la base de donnee methode  debuts
 
@@ -13,11 +16,10 @@ app.get('/', (req,resp) => {
 });
 
 // user route
-app.post('/login', (req,resp) => {
- const  data = req.body
-
- return resp.send(data.email ?? 'kjh')
-  // user.login.userAuth(req.body)
+app.post('/login', async (req,resp) => {
+  console.log(req.body);
+  let auth = await user.login.userAuth(req.body)
+  return resp.json(auth)
 });
 
 app.listen(port, () => {

@@ -1,30 +1,43 @@
 const express = require('express')
 const app = express()
-const db = require('../controller/dbConnexions')
+var mysql = require('mysql2/promise');
+
+ 
+var connexion = mysql.createPool({
+  host     : 'localhost',
+  user     : 'root',
+  password : '',
+  database: 'cashier',
+});
+
 
 exports.login = {
-   userAuth: (req, resp) => {
+   userAuth: async (req, resp) => {
 
-      console.log(req);
+        const [results, fields] = await connexion.execute(
+         'SELECT * FROM `users` WHERE `email` = ? AND `password` = ?',
+         [req?.email, req?.password]
+         
+       );
+     
 
-      const user = db.query(`select * from user where email=${req}`);
+       response = {
+         message: 'l\'utilisateurs trouver avec success',
+         error: false,
+         user_profile: results
+      }
+     
    
-      if (!user) {
+      if (results.length == 0) {
          response =  {
            message: 'l\'utilisateurs n\'existe pas',
            error: true
         }
       }
    
-      response = {
-       message: 'l\'utilisateurs trouver avec success',
-       error: false,
-       user_profile: user
-    }
+  
    
-    console.log(response);
-   
-    return resp.json(response);
+    return response;
    }
 }
 
