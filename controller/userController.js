@@ -12,33 +12,33 @@ var connexion = mysql.createPool({
 
 
 exports.login = {
-   userAuth: async (req, resp) => {
+  userAuth: async (req, resp) => {
+    const [results, fields] = await connexion.execute(
+      'SELECT * FROM `users` WHERE `email` = ? AND `password` = ?',
+      [req?.email, req?.password]
+    );
 
-        const [results, fields] = await connexion.execute(
-         'SELECT * FROM `users` WHERE `email` = ? AND `password` = ?',
-         [req?.email, req?.password]
-         
-       );
-     
+    let response;
 
-       response = {
-         message: 'l\'utilisateurs trouver avec success',
-         error: false,
-         user_profile: results
-      }
-     
-   
-      if (results.length == 0) {
-         response =  {
-           message: 'l\'utilisateurs n\'existe pas',
-           error: true
-        }
-      }
-   
-  
-   
+    if (results.length === 0) {
+      response = {
+        message: 'l\'utilisateur n\'existe pas',
+        error: true
+      };
+    } else {
+      response = {
+        message: 'l\'utilisateurs trouver avec success',
+        error: false,
+        user_profile: results
+      };
+    }
+
     return response;
-   }
-}
+  }
+};
+
+
+
+
 
 // module.exports = {login}
