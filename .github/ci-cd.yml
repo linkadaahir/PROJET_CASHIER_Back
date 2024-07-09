@@ -1,0 +1,22 @@
+name: CI/CD for Node.js app
+
+on:
+  push:
+    branches:
+      - devopsBack
+
+jobs:
+  build:
+    runs-on: ubulatest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Build application
+        run: npm run build
+      - name: Deploy to Heroku
+        uses: actions/heroku/deploy@v1
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: my-node-app
+          heroku_email: your_email@example.com
